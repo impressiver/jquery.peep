@@ -1,9 +1,8 @@
 /*
- * jQuery Peep v0.2
+ * jQuery Peep
  * Show the full contents of an overflowed div on rollover
- * 
  *
- * Copyright (c) 2011 Ian White (ian@fuzzygroove.com)
+ * Copyright (c) 2012 Ian White (ian@fuzzygroove.com)
  *
  */
 (function($) {
@@ -27,6 +26,8 @@
                 onclick: null,
                 selector: null
             }, options);
+            
+            $(window).on("mouseleave", "div.peep", doMouseleave);
 
             function doMouseenter() {
                 $("div.peep").remove();
@@ -63,14 +64,13 @@
 
             return this.each(function() {
                 if(selector) {
-                    $(this).delegate(selector, "mouseenter", doMouseenter);
+                    $(this).on("mouseenter", selector, doMouseenter);
                 } else {
-                    $(this).mouseenter(doMouseenter);
+                    $(this).on("mouseenter", doMouseenter);
                 }
 
-                $("div.peep").live("mouseleave", doMouseleave);
                 if(options.onclick) {
-                    $("div.peep").live("click", function () {
+                    $(window).on("click", "div.peep", function () {
                         options.onclick.apply(this);
                     });
                 }
